@@ -1,0 +1,20 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+backend/.env
+
+# Node
+node_modules/
+dist/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# ChromaDB
+chroma_db/
+
+# Logs
+*.log

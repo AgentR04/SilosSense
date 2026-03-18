@@ -1,0 +1,5 @@
+ticket_id,title,status,owner,priority,sprint,eta_days,blocked_by,summary
+TASK-101,Authentication module upgrade,In Progress,Alice Johnson,High,Sprint-12,3,None,Upgrade login authentication flow for enterprise users
+TASK-102,Dashboard UI fixes,Completed,Rahul Mehta,Medium,Sprint-12,0,None,Fix alignment and responsiveness issues on dashboard
+TASK-103,Database migration,Blocked,Neha Sharma,High,Sprint-12,5,TASK-101,Migrate legacy user records to new schema
+TASK-104,Notification service setup,In Progress,Arjun Patel,Medium,Sprint-12,4,None,Set up email and in-app notification service
