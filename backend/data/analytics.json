@@ -1,0 +1,17 @@
+{
+  "total_queries": 2,
+  "agent_usage": {
+    "HR Agent": 2,
+    "PM Agent": 1,
+    "Tech Agent": 1
+  },
+  "query_type_counts": {
+    "single-agent": 1,
+    "multi-agent": 1,
+    "fallback": 0
+  },
+  "multi_agent_queries": 1,
+  "single_agent_queries": 1,
+  "cumulative_response_time_ms": 1859.55,
+  "average_response_time_ms": 929.77
+}

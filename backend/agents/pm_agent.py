@@ -1,7 +1,8 @@
 import csv
 from pathlib import Path
 
-PM_DATA_PATH = Path("data/pm/tickets.csv")
+BASE_DIR = Path(__file__).resolve().parent.parent
+PM_DATA_PATH = BASE_DIR / "data" / "pm" / "tickets.csv"
 
 def read_tickets():
     tickets = []

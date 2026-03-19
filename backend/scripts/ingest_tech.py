@@ -7,19 +7,23 @@ from utils.text_processing import chunk_text
 from utils.chroma_store import get_collection
 from utils.embedding_model import embed_text
 
-TECH_DATA_PATH = Path("data/tech")
+BASE_DIR = Path(__file__).resolve().parent.parent
+TECH_DATA_PATH = BASE_DIR / "data" / "tech"
+
+SUPPORTED_TECH_EXTENSIONS = {".md", ".markdown", ".txt", ".doc"}
 
 def load_tech_docs():
     documents = []
 
-    for file_name in ["deployment_guide.md", "api_auth.md"]:
-        file_path = TECH_DATA_PATH / file_name
-        if file_path.exists():
-            with open(file_path, "r", encoding="utf-8") as f:
-                documents.append({
-                    "source": file_name,
-                    "text": f.read()
-                })
+    for file_path in sorted(TECH_DATA_PATH.glob("*")):
+        if not file_path.is_file() or file_path.suffix.lower() not in SUPPORTED_TECH_EXTENSIONS:
+            continue
+
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            documents.append({
+                "source": file_path.name,
+                "text": f.read()
+            })
 
     return documents
 

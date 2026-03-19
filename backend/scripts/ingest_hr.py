@@ -4,12 +4,12 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import fitz
-from pathlib import Path
 from utils.text_processing import chunk_text
 from utils.chroma_store import get_collection
 from utils.embedding_model import embed_text
 
-HR_DATA_PATH = Path("data/hr")
+BASE_DIR = Path(__file__).resolve().parent.parent
+HR_DATA_PATH = BASE_DIR / "data" / "hr"
 
 def extract_text_from_pdf(file_path: Path) -> str:
     if not file_path.exists():
@@ -25,13 +25,11 @@ def extract_text_from_pdf(file_path: Path) -> str:
 def load_hr_documents():
     documents = []
 
-    for file_name in ["employee_handbook.pdf", "benefits_policy.pdf"]:
-        file_path = HR_DATA_PATH / file_name
-        if file_path.exists():
-            documents.append({
-                "source": file_name,
-                "text": extract_text_from_pdf(file_path)
-            })
+    for file_path in sorted(HR_DATA_PATH.glob("*.pdf")):
+        documents.append({
+            "source": file_path.name,
+            "text": extract_text_from_pdf(file_path)
+        })
 
     return documents
 
