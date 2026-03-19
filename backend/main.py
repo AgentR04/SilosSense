@@ -1,4 +1,6 @@
 from dotenv import load_dotenv
+import sys
+print("[STARTUP] Loading environment variables...", file=sys.stderr, flush=True)
 load_dotenv()
 
 from typing import List
@@ -6,19 +8,29 @@ from pathlib import Path
 import shutil
 import time
 
+print("[STARTUP] Importing FastAPI and dependencies...", file=sys.stderr, flush=True)
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
+print("[STARTUP] Importing graph workflow...", file=sys.stderr, flush=True)
 from graph.workflow import build_graph
+
+print("[STARTUP] Importing ingest scripts...", file=sys.stderr, flush=True)
 from scripts.ingest_hr import ingest_hr_docs
 from scripts.ingest_tech import ingest_tech_docs
+
+print("[STARTUP] Importing services...", file=sys.stderr, flush=True)
 from services.analytics import get_analytics, record_query
 from services.trace_visibility import filter_trace_by_role
 
+print("[STARTUP] Creating FastAPI app...", file=sys.stderr, flush=True)
 app = FastAPI(title="SiloSense API")
-print("SiloSense backend starting...")
+print("[STARTUP] SiloSense backend initializing...", file=sys.stderr, flush=True)
 
+print("[STARTUP] Building LangGraph workflow (may take time on cold start)...", file=sys.stderr, flush=True)
 graph = build_graph()
+print("[STARTUP] Graph built successfully!", file=sys.stderr, flush=True)
 
 BASE_DATA_DIR = Path(__file__).resolve().parent / "data"
 HR_DATA_DIR = BASE_DATA_DIR / "hr"
@@ -29,6 +41,10 @@ SUPPORTED_TECH_UPLOAD_EXTENSIONS = {".md", ".markdown", ".txt", ".doc"}
 
 HR_DATA_DIR.mkdir(parents=True, exist_ok=True)
 TECH_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+@app.on_event("startup")
+async def startup_event():
+    print("[STARTUP] ✓ FastAPI startup event fired - ready to serve requests", file=sys.stderr, flush=True)
 
 app.add_middleware(
     CORSMiddleware,
