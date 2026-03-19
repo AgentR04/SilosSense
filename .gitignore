@@ -1,20 +1,36 @@
+# Git
+.git
+.gitignore
+
 # Python
-venv/
-__pycache__/
-*.pyc
-.env
-backend/.env
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.mypy_cache/
+**/venv/
+**/.venv/
 
 # Node
-node_modules/
-dist/
+**/node_modules/
+**/dist/
+**/.vite/
 
-# OS junk
+# Env / secrets
+**/.env
+**/.env.*
+
+# Data that should NOT be in the image
+backend/chroma_db/
+backend/vector_store/
+backend/data/
+frontend/.cache/
+frontend/coverage/
+
+# Editors / OS
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
 
-# ChromaDB
-chroma_db/
-
-# Logs
+# Misc
 *.log
