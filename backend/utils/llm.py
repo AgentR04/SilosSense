@@ -1,36 +1,24 @@
 import os
 from groq import Groq
 
-_api_key = os.getenv("GROQ_API_KEY")
-client = Groq(api_key=_api_key) if _api_key else None
+def get_groq_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY is not set")
+    return Groq(api_key=api_key)
 
-def generate_answer(query: str, context: str) -> str:
-    if client is None:
-        return (
-            "LLM response is unavailable because GROQ_API_KEY is not set. "
-            "Please configure GROQ_API_KEY to enable generated answers.\n\n"
-            f"Query: {query}\n"
-            "Context preview: "
-            f"{context[:400]}"
-        )
+def generate_answer(question: str, context: str) -> str:
+    client = get_groq_client()
 
     prompt = f"""
 You are an enterprise assistant.
+Answer the user's question using only the provided context.
 
-User question:
-{query}
+Question:
+{question}
 
-Context from company documents:
+Context:
 {context}
-
-Instructions:
-- Answer clearly and concisely
-- Extract the exact answer
-- Do not repeat unnecessary text
-- If amount/value exists, state it directly
-- Keep it professional
-
-Answer:
 """
 
     response = client.chat.completions.create(
@@ -39,4 +27,4 @@ Answer:
         temperature=0.2,
     )
 
-    return response.choices[0].message.content.strip()
+    return response.choices[0].message.content
