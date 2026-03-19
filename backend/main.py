@@ -16,6 +16,7 @@ from services.analytics import get_analytics, record_query
 from services.trace_visibility import filter_trace_by_role
 
 app = FastAPI(title="SiloSense API")
+print("SiloSense backend starting...")
 
 graph = build_graph()
 
